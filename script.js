@@ -160,7 +160,7 @@ function downloadPDF() {
     addLine("Tank Sensor", document.getElementById("sensor").selectedOptions[0]?.text || "");
 
     addSectionHeader("Shipping / Handling");
-    addLine("Tank", document.getElementById("tank").selectedOptions[0]?.text || "");
+    addLine("Tank", document.getElementById("tank").selectedOptions[0]?.text || "");https://github.com/KhalidMas23/Aquaria-Calculator/blob/main/script.js
     addLine("Delivery City", document.getElementById("city").selectedOptions[0]?.text || "");
     addLine("Connection Type", document.getElementById("connection").selectedOptions[0]?.text || "");
 
@@ -188,3 +188,4 @@ function downloadPDF() {
     doc.save("Hydropack_Quote.pdf");
   };
 }
+
