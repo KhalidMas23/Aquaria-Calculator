@@ -16,8 +16,8 @@ function calculateTotal() {
   const trenchingType = document.getElementById("trenchingType").value;
   const trenchDistance =
     parseFloat(document.getElementById("trenchDistance").value) || 0;
-  const panelUpgrade = document.getElementById("panelUpgrade").value;
-  const subpanelUpgrade = document.getElementById("subpanelUpgrade").value;
+  const panelUpgrade = document.getElementById("panelUpgrade").value || 0;
+  const subpanelUpgrade = document.getElementById("subpanelUpgrade")?.value || 0;
 
   const modelPrices = {
     s: { system: 9999, install: 6750, ship: 645, pad: 2750, mobility: 500 },
