@@ -2,70 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Hydropack Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hydropack Quote Calculator</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h1>Hydropack Quote Calculator</h1>
+  <form>
 
-  <label>Hydropack Model:</label>
-  <select id="model" onchange="calculateTotal()">
-    <option value="">-- Select --</option>
-    <option value="s">Hydropack S</option>
-    <option value="standard">Hydropack</option>
-    <option value="x">Hydropack X</option>
-  </select>
+    <!-- Nearest City -->
+    <label for="city">Nearest City:</label>
+    <select id="city" onchange="calculateTotal()">
+      <option value="">-- Select --</option>
+      <option value="Austin">Austin</option>
+      <option value="Corpus Christi">Corpus Christi</option>
+      <option value="Dallas">Dallas</option>
+      <option value="Houston">Houston</option>
+      <option value="San Antonio">San Antonio</option>
+    </select>
 
-  <label>Tank:</label>
-  <select id="tank" onchange="calculateTotal()">
-    <option value="">None</option>
-    <option value="500">500 gal / Coke can</option>
-    <option value="1550">1550 gal / White Claw</option>
-    <option value="3000">3000 gal / Good Ol' Boy</option>
-  </select>
+    <!-- Hydropack Model -->
+    <label for="model">Hydropack Model:</label>
+    <select id="model" onchange="calculateTotal()">
+      <option value="">-- Select --</option>
+      <option value="s">Hydropack S</option>
+      <option value="standard">Hydropack</option>
+      <option value="x">Hydropack X</option>
+    </select>
 
-  <label>Tank Sensor:</label>
-  <select id="sensor" onchange="calculateTotal()">
-    <option value="">None</option>
-    <option value="normal">Normal</option>
-  </select>
+    <label><input type="checkbox" id="unitPad" onchange="calculateTotal()"> Include Concrete Pad (for unit)</label>
+    <label><input type="checkbox" id="mobility" onchange="calculateTotal()"> Include Mobility Assistance</label>
+    <label><input type="checkbox" id="unitOnly" onchange="calculateTotal()"> Unit Purchase Only (skip install/add-ons)</label>
 
-  <label>Extra Filter(s):</label>
-  <select id="filter" onchange="calculateTotal()">
-    <option value="">None</option>
-    <option value="s">Hydropack S</option>
-    <option value="standard">Hydropack</option>
-    <option value="x">Hydropack X</option>
-  </select>
+    <!-- Tank -->
+    <label for="tank">Tank:</label>
+    <select id="tank" onchange="calculateTotal()">
+      <option value="">None</option>
+      <option value="500">500 gal / Coke can</option>
+      <option value="1550">1550 gal / White Claw</option>
+      <option value="3000">3000 gal / Good Ol' Boy</option>
+    </select>
+    <label><input type="checkbox" id="tankPad" onchange="calculateTotal()"> Include Concrete Pad (for tank)</label>
 
-  <label>External Water Pump:</label>
-  <select id="pump" onchange="calculateTotal()">
-    <option value="">None</option>
-    <option value="dab">DAB ESYBOX Electronic</option>
-  </select>
+    <!-- Tank Sensor -->
+    <label for="sensor">Tank Sensor:</label>
+    <select id="sensor" onchange="calculateTotal()">
+      <option value="">None</option>
+      <option value="normal">Normal</option>
+    </select>
 
-  <label>Connection Type:</label>
-  <select id="connection" disabled>
-    <option value="manual">Manual 2-way T valve (no permit required)</option>
-  </select>
+    <!-- Filter -->
+    <label for="filter">Extra Filter(s):</label>
+    <select id="filter" onchange="calculateTotal()">
+      <option value="">None</option>
+      <option value="s">Hydropack S</option>
+      <option value="standard">Hydropack</option>
+      <option value="x">Hydropack X</option>
+    </select>
 
-  <label>Trenching Type:</label>
-  <select id="trenchingType" onchange="calculateTotal()">
-    <option value="">None</option>
-    <option value="dirt">Dirt</option>
-    <option value="rock">Rock</option>
-    <option value="limestone">Limestone</option>
-  </select>
+    <!-- Pump -->
+    <label for="pump">External Water Pump:</label>
+    <select id="pump" onchange="calculateTotal()">
+      <option value="">None</option>
+      <option value="dab">DAB ESYBOX</option>
+      <option value="mini">DAB Mini</option>
+    </select>
 
-  <label>Trenching Distance (ft):</label>
-  <input type="number" id="trenchDistance" value="0" oninput="calculateTotal()" />
+    <!-- Connection -->
+    <label for="connection">Connection Type:</label>
+    <select id="connection" onchange="calculateTotal()">
+      <option value="manual">Manual 2-way T-valve ($75)</option>
+    </select>
 
-  <h2>Total Estimate: $<span id="total">0.00</span></h2>
+    <!-- Trenching -->
+    <label for="trenchingType">Trenching Type:</label>
+    <select id="trenchingType" onchange="calculateTotal()">
+      <option value="">None</option>
+      <option value="dirt">Dirt</option>
+      <option value="rock">Rock</option>
+      <option value="limestone">Limestone</option>
+    </select>
 
-  <button onclick="downloadPDF()">Download Quote as PDF</button>
+    <label for="trenchDistance">Trenching Distance (ft):</label>
+    <input type="number" id="trenchDistance" value="0" oninput="calculateTotal()" />
+
+    <h2>Total Estimate: $<span id="total">0.00</span></h2>
+    <button type="button" onclick="downloadPDF()">Download Quote as PDF</button>
+  </form>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="script.js"></script>
-
-
 </body>
 </html>
