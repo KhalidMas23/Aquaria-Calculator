@@ -227,7 +227,6 @@ function downloadPDF() {
     const tax = (unit + filterPrice + pumpPrice + sensorPrice) * taxRate;
 
     // Total
-    addSectionHeader("Total");
     doc.setFont(undefined, 'bold');
     doc.setFontSize(14);
     doc.text(`Total: $${total}`, 20, y);
