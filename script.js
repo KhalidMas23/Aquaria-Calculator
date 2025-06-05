@@ -133,18 +133,19 @@ function downloadPDF() {
     let y = 40;
     const addLine = (label, value) => {
       doc.setFont(undefined, 'normal');
-      doc.text(`${label}: ${value}`, 25, y);
+      doc.text(label, 20, y);
+      doc.text(value, 190, y, { align: 'right' });
       y += 7;
     };
 
     const addSectionHeader = (title) => {
+      doc.setFillColor(230);
+      doc.rect(20, y, 170, 8, 'F');
       doc.setFont(undefined, 'bold');
       doc.setFontSize(12);
-      doc.text(title, 20, y);
-      y += 5;
-      doc.setDrawColor(180);
-      doc.line(20, y, 190, y);
-      y += 5;
+      doc.setTextColor(0);
+      doc.text(title, 25, y + 6);
+      y += 12;
     };
 
     addSectionHeader("Product");
@@ -179,12 +180,14 @@ function downloadPDF() {
     addSectionHeader("Total");
     doc.setFont(undefined, 'bold');
     doc.setFontSize(14);
-    doc.text(`Total Estimate: $${total}`, 20, y);
+    doc.text("Total Estimate:", 20, y);
+    doc.text(`$${total}`, 190, y, { align: 'right' });
 
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
     doc.text("Thank you for your interest in Aquaria. This quote is valid for 30 days.", 20, 285);
 
     doc.save("Hydropack_Quote.pdf");
+  };
   };
 }
