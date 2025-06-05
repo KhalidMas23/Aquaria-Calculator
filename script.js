@@ -196,7 +196,7 @@ function downloadPDF() {
       addService("Panel Upgrade", 1, "Electrical panel enhancement");
     }
     const subpanelUpgrade = document.getElementById("subpanelUpgrade").value;
-    if (subpanelUpgrade === "subpane'l") {
+    if (subpanelUpgrade === "subpanel") {
       addService("Subpanel Upgrade", 1, "Electrical subpanel support");
     }
 
