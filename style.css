@@ -1,137 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aquaria Quote Calculator</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <h1>Aquaria Hydropack Quote Calculator</h1>
-  <form>
-    <fieldset>
-      <legend>Select Hydropack Model</legend>
-      <label>
-        Model:
-        <select id="model" onchange="calculateTotal()">
-          <option value="">--Select--</option>
-          <option value="s">Hydropack S</option>
-          <option value="standard">Hydropack</option>
-          <option value="x">Hydropack X</option>
-        </select>
-      </label>
-      <label><input type="checkbox" id="unitPad" onchange="calculateTotal()" /> Include Concrete Pad</label>
-      <label><input type="checkbox" id="mobility" onchange="calculateTotal()" /> Include Mobility Assistance</label>
-      <label><input type="checkbox" id="unitOnly" onchange="calculateTotal()" /> Unit Purchase Only (No Installation or Add-ons)</label>
-    </fieldset>
+body {
+  font-family: Arial, sans-serif;
+  margin: 40px;
+  max-width: 800px;
+  color: #333;
+  background-color: #f9f9f9;
+}
 
-    <fieldset>
-      <legend>Select Tank</legend>
-      <label>
-        Tank:
-        <select id="tank" onchange="calculateTotal()">
-          <option value="">None</option>
-          <option value="500">500 gal - Coke Can</option>
-          <option value="1550">1550 gal - White Claw</option>
-          <option value="3000">3000 gal - Good Ol' Boy</option>
-        </select>
-      </label>
-      <label><input type="checkbox" id="tankPad" onchange="calculateTotal()" /> Include Tank Concrete Pad</label>
-    </fieldset>
+h1 {
+  text-align: center;
+  color: #00557f;
+}
 
-    <fieldset>
-      <legend>Tank Sensor</legend>
-      <label>
-        Sensor:
-        <select id="sensor" onchange="calculateTotal()">
-          <option value="">None</option>
-          <option value="normal">Normal</option>
-        </select>
-      </label>
-    </fieldset>
+form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
-    <fieldset>
-      <legend>Extra Filter(s)</legend>
-      <label>
-        Filter:
-        <select id="filter" onchange="calculateTotal()">
-          <option value="">None</option>
-          <option value="s">Hydropack S</option>
-          <option value="standard">Hydropack</option>
-          <option value="x">Hydropack X</option>
-        </select>
-      </label>
-    </fieldset>
+fieldset {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 6px;
+}
 
-    <fieldset>
-      <legend>External Pump Options</legend>
-      <label>
-        Pump:
-        <select id="pump" onchange="calculateTotal()">
-          <option value="">None</option>
-          <option value="dab">DAB ESYBOX</option>
-          <option value="mini">DAB Mini</option>
-        </select>
-      </label>
-    </fieldset>
+legend {
+  font-weight: bold;
+  padding: 0 8px;
+  color: #00557f;
+}
 
-    <fieldset>
-      <legend>Connection Type</legend>
-      <label>
-        Connection:
-        <select id="connection" onchange="calculateTotal()">
-          <option value="t-valve">Manual 2-way T Valve (no permit)</option>
-        </select>
-      </label>
-    </fieldset>
+label,
+select,
+input[type="number"] {
+  display: block;
+  margin: 10px 0;
+  font-size: 14px;
+}
 
-    <fieldset>
-      <legend>Trenching</legend>
-      <label>
-        Trenching Type:
-        <select id="trenchingType" onchange="calculateTotal()">
-          <option value="">None</option>
-          <option value="dirt">Dirt</option>
-          <option value="rock">Rock</option>
-          <option value="limestone">Limestone</option>
-        </select>
-      </label>
-      <label>
-        Trenching Distance (ft):
-        <input type="number" id="trenchDistance" value="0" onchange="calculateTotal()" />
-      </label>
-    </fieldset>
+select,
+input[type="number"] {
+  padding: 6px;
+  width: 100%;
+  max-width: 400px;
+}
 
-    <fieldset>
-      <legend>City for Delivery</legend>
-      <label>
-        Nearest City:
-        <select id="city" onchange="calculateTotal()">
-          <option value="">--Select--</option>
-          <option value="Austin">Austin</option>
-          <option value="Corpus Christi">Corpus Christi</option>
-          <option value="Dallas">Dallas</option>
-          <option value="Houston">Houston</option>
-          <option value="San Antonio">San Antonio</option>
-        </select>
-      </label>
-    </fieldset>
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #0077aa;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto;
+}
 
-    <fieldset>
-      <legend>Add-ons</legend>
-      <label>
-        Add-on:
-        <select id="panelUpgrade" onchange="calculateTotal()">
-          <option value="">None</option>
-          <option value="panel">Panel Upgrade ($8000)</option>
-        </select>
-      </label>
-    </fieldset>
+button:hover {
+  background-color: #005f87;
+}
 
-    <h2>Total Estimate: $<span id="total">0.00</span></h2>
-    <button type="button" onclick="downloadPDF()">Download PDF Quote</button>
-  </form>
-  <script src="script.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-</body>
-</html>
+h2 {
+  text-align: center;
+  color: #0077aa;
+  margin-top: 40px;
+}
