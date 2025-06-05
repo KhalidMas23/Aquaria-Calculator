@@ -31,53 +31,12 @@ function calculateTotal() {
     x: { system: 29999, install: 8750, ship: 1550, pad: 4550, mobility: 1000 },
   };
 
-<<<<<<< HEAD
-  const tankPrices = {
-    500: 770.9,
-    1550: 1430.35,
-    3000: 2428.9,
-  };
-
-  const tankPads = {
-    500: 1850,
-    1550: 2250,
-    3000: 2550,
-  };
-
-  const cityDelivery = {
-    Austin: 999,
-    "Corpus Christi": 858,
-    Dallas: 577.5,
-    Houston: 200,
-    "San Antonio": 660,
-  };
-
-  const filterPrices = {
-    s: 350,
-    standard: 500,
-    x: 700,
-  };
-
-  const pumpPrices = {
-    dab: 1900,
-    mini: 800,
-    "": 0,
-  };
-
-  const trenchRates = {
-    dirt: 54.5,
-    rock: 59.5,
-    limestone: 61.5,
-    "": 0,
-  };
-=======
   const tankPrices = { 500: 770.9, 1550: 1430.35, 3000: 2428.9 };
   const tankPads = { 500: 1850, 1550: 2250, 3000: 2550 };
   const cityDelivery = { "Austin": 999, "Corpus Christi": 858, "Dallas": 577.5, "Houston": 200, "San Antonio": 660 };
   const filterPrices = { s: 350, standard: 500, x: 700 };
   const pumpPrices = { dab: 1900, mini: 800, "": 0 };
   const trenchRates = { dirt: 54.5, rock: 59.5, limestone: 61.5, "": 0 };
->>>>>>> 4dbebff1698864de31169c41f614f51f6b99d70e
 
   let taxable = 0;
 
@@ -188,16 +147,9 @@ function downloadPDF() {
     // Additional Filters
     addSectionHeader("Additional Filters");
     const filter = document.getElementById("filter").value;
-<<<<<<< HEAD
-    const filterText = filter
-      ? document.querySelector(`#filter option[value='${filter}']`).textContent
-      : "None";
-    addLine("Extra Filter(s)", filterText);
-=======
     const filterQty = parseInt(document.getElementById("filterQty").value) || 1;
     const filterText = filter ? document.querySelector(`#filter option[value='${filter}']`).textContent : "None";
     addLine("Extra Filter(s)", `${filterText} x${filterQty}`);
->>>>>>> 4dbebff1698864de31169c41f614f51f6b99d70e
 
     // Shipping and Handling
     addSectionHeader("Shipping/Handling");
@@ -244,25 +196,15 @@ function downloadPDF() {
       addService("Panel Upgrade", 1, "Electrical panel enhancement");
     }
     const subpanelUpgrade = document.getElementById("subpanelUpgrade").value;
-    if (subpanelUpgrade === "subpanel") {
+    if (subpanelUpgrade === "subpane'l") {
       addService("Subpanel Upgrade", 1, "Electrical subpanel support");
     }
 
-<<<<<<< HEAD
-    // Admin Fee
-    addSectionHeader("Admin & Processing Fee");
-    // addLine("Admin Fee", "$500");
-
-    // Sales Tax
-    addSectionHeader("8.25% Sales Tax");
-    // addLine("Texas Sales Tax (8.25%)", `$${tax.toFixed(2)}`);
-=======
     // Admin Fee Section
     addSectionHeader("Admin & Processing Fee");
 
     // Tax Section
     addSectionHeader("8.25% Sales Tax");
->>>>>>> 4dbebff1698864de31169c41f614f51f6b99d70e
 
     // Total
     doc.setFont(undefined, "bold");
