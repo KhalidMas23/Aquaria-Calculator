@@ -1,3 +1,7 @@
+# Project
+
+This is a temporary calculator to use for D2D sales/contracts
+
 echo "# Aquaria-Calculator" >> README.md
 git init
 git add README.md
