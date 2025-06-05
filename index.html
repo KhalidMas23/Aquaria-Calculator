@@ -57,14 +57,18 @@
 
 <fieldset>
   <legend>Extra Filter(s)</legend>
+  <label for="filter">Filter Type:</label>
   <select id="filter">
     <option value="">None</option>
     <option value="s">Hydropack S</option>
     <option value="standard">Hydropack</option>
     <option value="x">Hydropack X</option>
-  </select>
-  <input type="number" id="filterQty" min="1" value="1" style="width: 60px;"> Qty
+  </select><br><br>
+
+  <label for="filterQty">Quantity:</label>
+  <input type="number" id="filterQty" min="1" step="1" value="1" style="width: 60px;">
 </fieldset>
+
 
 
     <fieldset>
