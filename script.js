@@ -198,10 +198,9 @@ function downloadPDF() {
 
     // Admin Fee
     addSectionHeader("Admin & Processing Fee");
-    addLine("Flat Fee", "$500.00");
 
     // Sales Tax
-    addSectionHeader("Sales Tax");
+    addSectionHeader("8.25% Sales Tax");
     const taxRate = 0.0825;
     const pump = document.getElementById("pump").value;
     const sensor = document.getElementById("sensor").value;
@@ -226,13 +225,12 @@ function downloadPDF() {
     const pumpPrice = pumpPrices[pump] || 0;
     const sensorPrice = sensor === "normal" ? 0 : 0;
     const tax = (unit + filterPrice + pumpPrice + sensorPrice) * taxRate;
-    addLine("8.25% Tax (included in total)", `$${tax.toFixed(2)}`);
 
     // Total
     addSectionHeader("Total");
     doc.setFont(undefined, 'bold');
     doc.setFontSize(14);
-    doc.text(`Total Estimate: $${total}`, 20, y);
+    doc.text(`Total: $${total}`, 20, y);
 
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
