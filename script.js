@@ -78,7 +78,7 @@ function calculateTotal() {
   subtotal += trenchRates[trenchingType] * trenchDistance;
 
   if (panelUpgrade === "panel") subtotal += 8000;
-  if (subpanelUpgrade === "subpanel") subtotal += 3000;
+  if (panelUpgrade === "subpanel") subtotal += 3000;
 
   subtotal += 500; // Admin fee
 
