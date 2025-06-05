@@ -1,23 +1,30 @@
 body {
   font-family: Arial, sans-serif;
-  padding: 20px;
+  margin: 0;
+  padding: 0;
   background-color: #f4f4f4;
 }
 
-form {
-  background: white;
+.container {
+  max-width: 700px;
+  margin: 30px auto;
   padding: 20px;
+  background-color: #fff;
   border-radius: 8px;
-  max-width: 600px;
-  margin: 0 auto;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 fieldset {
+  border: 1px solid #ccc;
   margin-bottom: 20px;
   padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 6px;
+  background-color: #fafafa;
 }
 
 legend {
@@ -25,23 +32,41 @@ legend {
   padding: 0 10px;
 }
 
-button {
-  padding: 10px 15px;
-  font-size: 16px;
-  border: none;
-  background-color: #0077cc;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
+select,
+input[type="checkbox"],
+input[type="number"] {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-button:hover {
-  background-color: #005fa3;
+input[type="number"] {
+  width: 100%;
 }
 
 p {
+  text-align: center;
   font-size: 18px;
-  font-weight: bold;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
+button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  font-size: 16px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
