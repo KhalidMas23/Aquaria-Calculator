@@ -130,11 +130,6 @@ function downloadPDF() {
     doc.text(`Quote Generated: ${date}`, 20, 27);
 
     let y = 40;
-    const addLine = (label, value) => {
-      doc.setFont(undefined, 'normal');
-      doc.text(`${label}: ${value}`, 25, y);
-      y += 7;
-    };
 
     const addSectionHeader = (title) => {
       doc.setFont(undefined, 'bold');
@@ -146,6 +141,30 @@ function downloadPDF() {
       y += 5;
     };
 
+    const addLine = (label, value) => {
+      doc.setFont(undefined, 'normal');
+      doc.text(`${label}: ${value}`, 25, y);
+      y += 7;
+    };
+
+    // Product Section
+    addSectionHeader("Main Product");
+    const model = document.getElementById("model").value;
+    const modelText = model ? document.querySelector(`#model option[value='${model}']`).textContent : "None";
+    addLine("Hydropack Model", modelText);
+
+    // Additional Filters
+    addSectionHeader("Additional Filters");
+    const filter = document.getElementById("filter").value;
+    const filterText = filter ? document.querySelector(`#filter option[value='${filter}']`).textContent : "None";
+    addLine("Extra Filter(s)", filterText);
+
+    // Shipping and Handling
+    addSectionHeader("Shipping/Handling");
+    const city = document.getElementById("city").value;
+    addLine("Nearest City", city);
+
+    // Additional Services
     addSectionHeader("Additional Services");
     doc.setFont(undefined, 'bold');
     doc.text("Component", 25, y);
@@ -161,6 +180,9 @@ function downloadPDF() {
       y += 7;
     };
 
+    if (document.getElementById("unitPad").checked) {
+      addService("Unit Concrete Pad", 1, "Concrete base for main system");
+    }
     if (document.getElementById("tankPad").checked) {
       addService("Tank Concrete Pad", 1, "Concrete base for tank support");
     }
@@ -174,13 +196,13 @@ function downloadPDF() {
       addService("Connection Type", 1, "Manual 2-way T-valve install");
     }
 
+    // Admin Fee
     addSectionHeader("Admin & Processing Fee");
     addLine("Flat Fee", "$500.00");
 
+    // Sales Tax
     addSectionHeader("Sales Tax");
     const taxRate = 0.0825;
-    const model = document.getElementById("model").value;
-    const filter = document.getElementById("filter").value;
     const pump = document.getElementById("pump").value;
     const sensor = document.getElementById("sensor").value;
     const modelPrices = {
@@ -206,6 +228,7 @@ function downloadPDF() {
     const tax = (unit + filterPrice + pumpPrice + sensorPrice) * taxRate;
     addLine("8.25% Tax (included in total)", `$${tax.toFixed(2)}`);
 
+    // Total
     addSectionHeader("Total");
     doc.setFont(undefined, 'bold');
     doc.setFontSize(14);
