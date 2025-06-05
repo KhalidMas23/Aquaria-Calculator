@@ -10,12 +10,14 @@ function calculateTotal() {
   const city = document.getElementById("city").value;
   const sensor = document.getElementById("sensor").value;
   const filter = document.getElementById("filter").value;
+  const filterQty = parseInt(document.getElementById("filterQty").value) || 1;
   const pump = document.getElementById("pump").value;
   const connection = document.getElementById("connection").value;
   const trenchingType = document.getElementById("trenchingType").value;
   const trenchDistance =
     parseFloat(document.getElementById("trenchDistance").value) || 0;
   const panelUpgrade = document.getElementById("panelUpgrade").value;
+  const subpanelUpgrade = document.getElementById("subpanelUpgrade").value;
 
   const modelPrices = {
     s: { system: 9999, install: 6750, ship: 645, pad: 2750, mobility: 500 },
@@ -29,6 +31,7 @@ function calculateTotal() {
     x: { system: 29999, install: 8750, ship: 1550, pad: 4550, mobility: 1000 },
   };
 
+<<<<<<< HEAD
   const tankPrices = {
     500: 770.9,
     1550: 1430.35,
@@ -67,6 +70,14 @@ function calculateTotal() {
     limestone: 61.5,
     "": 0,
   };
+=======
+  const tankPrices = { 500: 770.9, 1550: 1430.35, 3000: 2428.9 };
+  const tankPads = { 500: 1850, 1550: 2250, 3000: 2550 };
+  const cityDelivery = { "Austin": 999, "Corpus Christi": 858, "Dallas": 577.5, "Houston": 200, "San Antonio": 660 };
+  const filterPrices = { s: 350, standard: 500, x: 700 };
+  const pumpPrices = { dab: 1900, mini: 800, "": 0 };
+  const trenchRates = { dirt: 54.5, rock: 59.5, limestone: 61.5, "": 0 };
+>>>>>>> 4dbebff1698864de31169c41f614f51f6b99d70e
 
   let taxable = 0;
 
@@ -81,18 +92,21 @@ function calculateTotal() {
   }
 
   if (tank) {
-    subtotal += tankPrices[tank];
-    if (tankPad) subtotal += tankPads[tank];
+    const tankCost = tankPrices[tank] || 0;
+    subtotal += tankCost;
+    taxable += tankCost;
+    if (tankPad) subtotal += tankPads[tank] || 0;
     if (city && cityDelivery[city]) subtotal += cityDelivery[city];
   }
 
   if (sensor === "normal") {
-    taxable += 0;
+    // Normal sensor is not taxable and has no cost
   }
 
   if (filter) {
-    subtotal += filterPrices[filter] || 0;
-    taxable += filterPrices[filter] || 0;
+    const filterCost = (filterPrices[filter] || 0) * filterQty;
+    subtotal += filterCost;
+    taxable += filterCost;
   }
 
   if (pump) {
@@ -105,6 +119,7 @@ function calculateTotal() {
   subtotal += trenchRates[trenchingType] * trenchDistance;
 
   if (panelUpgrade === "panel") subtotal += 8000;
+  if (subpanelUpgrade === "subpanel") subtotal += 3000;
 
   subtotal += 500; // Admin fee
 
@@ -173,10 +188,16 @@ function downloadPDF() {
     // Additional Filters
     addSectionHeader("Additional Filters");
     const filter = document.getElementById("filter").value;
+<<<<<<< HEAD
     const filterText = filter
       ? document.querySelector(`#filter option[value='${filter}']`).textContent
       : "None";
     addLine("Extra Filter(s)", filterText);
+=======
+    const filterQty = parseInt(document.getElementById("filterQty").value) || 1;
+    const filterText = filter ? document.querySelector(`#filter option[value='${filter}']`).textContent : "None";
+    addLine("Extra Filter(s)", `${filterText} x${filterQty}`);
+>>>>>>> 4dbebff1698864de31169c41f614f51f6b99d70e
 
     // Shipping and Handling
     addSectionHeader("Shipping/Handling");
@@ -222,7 +243,12 @@ function downloadPDF() {
     if (panelUpgrade === "panel") {
       addService("Panel Upgrade", 1, "Electrical panel enhancement");
     }
+    const subpanelUpgrade = document.getElementById("subpanelUpgrade").value;
+    if (subpanelUpgrade === "subpanel") {
+      addService("Subpanel Upgrade", 1, "Electrical subpanel support");
+    }
 
+<<<<<<< HEAD
     // Admin Fee
     addSectionHeader("Admin & Processing Fee");
     // addLine("Admin Fee", "$500");
@@ -230,6 +256,13 @@ function downloadPDF() {
     // Sales Tax
     addSectionHeader("8.25% Sales Tax");
     // addLine("Texas Sales Tax (8.25%)", `$${tax.toFixed(2)}`);
+=======
+    // Admin Fee Section
+    addSectionHeader("Admin & Processing Fee");
+
+    // Tax Section
+    addSectionHeader("8.25% Sales Tax");
+>>>>>>> 4dbebff1698864de31169c41f614f51f6b99d70e
 
     // Total
     doc.setFont(undefined, "bold");
