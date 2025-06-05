@@ -116,53 +116,6 @@ function calculateTotal() {
   return total;
 }
 
-  let taxable = 0;
-
-  if (model) {
-    subtotal += modelPrices[model].system;
-    taxable += modelPrices[model].system;
-    if (!unitOnly) {
-      subtotal += modelPrices[model].install;
-    }
-    subtotal += modelPrices[model].ship;
-    if (unitPad) subtotal += modelPrices[model].pad;
-    if (mobility) subtotal += modelPrices[model].mobility;
-  }
-
-  if (tank) {
-    subtotal += tankPrices[tank];
-    if (tankPad) subtotal += tankPads[tank];
-    if (city) subtotal += cityDelivery[city] || 0;
-  }
-
-  if (sensor === "normal") {
-    taxable += 0;
-  }
-
-  if (filter) {
-    subtotal += filterPrices[filter] || 0;
-    taxable += filterPrices[filter] || 0;
-  }
-
-  subtotal += pumpPrices[pump] || 0;
-  taxable += pumpPrices[pump] || 0;
-
-  if (connection === "t-valve") subtotal += 75;
-
-  subtotal += trenchRates[trenchingType] * trenchDistance;
-
-  if (panelUpgrade === "panel") subtotal += 8000;
-
-  subtotal += 500; // Admin fee
-
-  const taxRate = 0.0825;
-  const tax = taxable * taxRate;
-  const total = subtotal + tax;
-
-  document.getElementById("total").textContent = total.toFixed(2);
-  return total;
-}
-
 function downloadPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
