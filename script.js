@@ -1,4 +1,4 @@
-function calculateTotal() {
+ffunction calculateTotal() {
   let subtotal = 0;
 
   const model = document.getElementById("model").value;
@@ -76,8 +76,8 @@ function calculateTotal() {
 
   if (tank) {
     subtotal += tankPrices[tank];
-    subtotal += cityDelivery[city] || 0;
     if (tankPad) subtotal += tankPads[tank];
+    if (city) subtotal += cityDelivery[city] || 0;
   }
 
   if (sensor === "normal") {
