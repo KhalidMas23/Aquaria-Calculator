@@ -2,33 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Calculator</title>
-  <link rel="stylesheet" href="style.css"/>
+  <title>Hydropack Calculator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="calculator">
-    <input type="text" id="display" disabled />
-    <div class="buttons">
-      <button onclick="clearDisplay()">C</button>
-      <button onclick="appendValue('7')">7</button>
-      <button onclick="appendValue('8')">8</button>
-      <button onclick="appendValue('9')">9</button>
-      <button onclick="appendValue('+')">+</button>
-      <button onclick="appendValue('4')">4</button>
-      <button onclick="appendValue('5')">5</button>
-      <button onclick="appendValue('6')">6</button>
-      <button onclick="appendValue('-')">-</button>
-      <button onclick="appendValue('1')">1</button>
-      <button onclick="appendValue('2')">2</button>
-      <button onclick="appendValue('3')">3</button>
-      <button onclick="appendValue('*')">*</button>
-      <button onclick="appendValue('0')">0</button>
-      <button onclick="appendValue('.')">.</button>
-      <button onclick="calculate()">=</button>
-      <button onclick="appendValue('/')">/</button>
-    </div>
-  </div>
+  <h1>Hydropack Quote Calculator</h1>
+
+  <label>Hydropack Model:</label>
+  <select id="model" onchange="calculateTotal()">
+    <option value="">-- Select --</option>
+    <option value="s">Hydropack S</option>
+    <option value="standard">Hydropack</option>
+    <option value="x">Hydropack X</option>
+  </select>
+
+  <label>Tank:</label>
+  <select id="tank" onchange="calculateTotal()">
+    <option value="">None</option>
+    <option value="500">500 gal / Coke can</option>
+    <option value="1550">1550 gal / White Claw</option>
+    <option value="3000">3000 gal / Good Ol' Boy</option>
+  </select>
+
+  <label>Tank Sensor:</label>
+  <select id="sensor" onchange="calculateTotal()">
+    <option value="">None</option>
+    <option value="normal">Normal</option>
+  </select>
+
+  <label>Extra Filter(s):</label>
+  <select id="filter" onchange="calculateTotal()">
+    <option value="">None</option>
+    <option value="s">Hydropack S</option>
+    <option value="standard">Hydropack</option>
+    <option value="x">Hydropack X</option>
+  </select>
+
+  <label>External Water Pump:</label>
+  <select id="pump" onchange="calculateTotal()">
+    <option value="">None</option>
+    <option value="dab">DAB ESYBOX Electronic</option>
+  </select>
+
+  <label>Connection Type:</label>
+  <select id="connection" disabled>
+    <option value="manual">Manual 2-way T valve (no permit required)</option>
+  </select>
+
+  <label>Trenching Type:</label>
+  <select id="trenchingType" onchange="calculateTotal()">
+    <option value="">None</option>
+    <option value="dirt">Dirt</option>
+    <option value="rock">Rock</option>
+    <option value="limestone">Limestone</option>
+  </select>
+
+  <label>Trenching Distance (ft):</label>
+  <input type="number" id="trenchDistance" value="0" oninput="calculateTotal()" />
+
+  <h2>Total Estimate: $<span id="total">0.00</span></h2>
+
   <script src="script.js"></script>
 </body>
 </html>
