@@ -1,4 +1,4 @@
-ffunction calculateTotal() {
+function calculateTotal() {
   let subtotal = 0;
 
   const model = document.getElementById("model").value;
