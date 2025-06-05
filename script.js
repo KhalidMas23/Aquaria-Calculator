@@ -26,7 +26,7 @@ function calculateTotal() {
   document.getElementById("total").textContent = total.toFixed(2);
 }
 
-async function downloadPDF() {
+function downloadPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
