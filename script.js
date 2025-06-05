@@ -17,7 +17,6 @@ function calculateTotal() {
   const trenchDistance =
     parseFloat(document.getElementById("trenchDistance").value) || 0;
   const panelUpgrade = document.getElementById("panelUpgrade").value || 0;
-  const subpanelUpgrade = document.getElementById("subpanelUpgrade").value || 0;
 
   const modelPrices = {
     s: { system: 9999, install: 6750, ship: 645, pad: 2750, mobility: 500 },
@@ -33,7 +32,13 @@ function calculateTotal() {
 
   const tankPrices = { 500: 770.9, 1550: 1430.35, 3000: 2428.9 };
   const tankPads = { 500: 1850, 1550: 2250, 3000: 2550 };
-  const cityDelivery = { "Austin": 999, "Corpus Christi": 858, "Dallas": 577.5, "Houston": 200, "San Antonio": 660 };
+  const cityDelivery = {
+    Austin: 999,
+    "Corpus Christi": 858,
+    Dallas: 577.5,
+    Houston: 200,
+    "San Antonio": 660,
+  };
   const filterPrices = { s: 350, standard: 500, x: 700 };
   const pumpPrices = { dab: 1900, mini: 800, "": 0 };
   const trenchRates = { dirt: 54.5, rock: 59.5, limestone: 61.5, "": 0 };
@@ -148,7 +153,9 @@ function downloadPDF() {
     addSectionHeader("Additional Filters");
     const filter = document.getElementById("filter").value;
     const filterQty = parseInt(document.getElementById("filterQty").value) || 1;
-    const filterText = filter ? document.querySelector(`#filter option[value='${filter}']`).textContent : "None";
+    const filterText = filter
+      ? document.querySelector(`#filter option[value='${filter}']`).textContent
+      : "None";
     addLine("Extra Filter(s)", `${filterText} x${filterQty}`);
 
     // Shipping and Handling
@@ -191,12 +198,11 @@ function downloadPDF() {
     if (connection === "t-valve") {
       addService("Connection Type", 1, "Manual 2-way T-valve install");
     }
+   
     const panelUpgrade = document.getElementById("panelUpgrade").value;
     if (panelUpgrade === "panel") {
       addService("Panel Upgrade", 1, "Electrical panel enhancement");
-    }
-    const subpanelUpgrade = document.getElementById("subpanelUpgrade").value;
-    if (subpanelUpgrade === "subpanel") {
+    } else if (panelUpgrade === "subpanel") {
       addService("Subpanel Upgrade", 1, "Electrical subpanel support");
     }
 
