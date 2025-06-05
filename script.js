@@ -183,3 +183,4 @@ function downloadPDF() {
 
   doc.save("Hydropack_Quote.pdf");
 }
+
