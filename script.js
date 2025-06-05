@@ -208,12 +208,13 @@ function downloadPDF() {
       addService("Panel Upgrade", 1, "Electrical panel enhancement");
     }
 
-    // Admin Fee
-    addSectionHeader("Admin & Processing Fee");
+// Admin Fee
+addSectionHeader("Admin & Processing Fee");
+// addLine("Admin Fee", "$500");
 
-    // Sales Tax
-    addSectionHeader("Sales Tax");
-    const tax = calculateTotal() - (calculateTotal() / 1.0825);
+// Sales Tax
+addSectionHeader("8.25% Sales Tax");
+// addLine("Texas Sales Tax (8.25%)", `$${tax.toFixed(2)}`);
 
     // Total
     doc.setFont(undefined, 'bold');
