@@ -61,8 +61,11 @@ function calculateTotal() {
     "": 0,
   };
 
+  let taxable = 0;
+
   if (model) {
     subtotal += modelPrices[model].system;
+    taxable += modelPrices[model].system;
     if (!unitOnly) {
       subtotal += modelPrices[model].install;
     }
@@ -73,15 +76,21 @@ function calculateTotal() {
 
   if (tank) {
     subtotal += tankPrices[tank];
-    if (tankPad) subtotal += tankPads[tank];
     subtotal += cityDelivery[city] || 0;
+    if (tankPad) subtotal += tankPads[tank];
   }
 
-  if (sensor === "normal") subtotal += 0;
+  if (sensor === "normal") {
+    taxable += 0;
+  }
 
-  if (filter) subtotal += filterPrices[filter] || 0;
+  if (filter) {
+    subtotal += filterPrices[filter] || 0;
+    taxable += filterPrices[filter] || 0;
+  }
 
   subtotal += pumpPrices[pump] || 0;
+  taxable += pumpPrices[pump] || 0;
 
   if (connection === "t-valve") subtotal += 75;
 
@@ -92,17 +101,9 @@ function calculateTotal() {
   subtotal += 500; // Admin fee
 
   const taxRate = 0.0825;
-  const taxableItems = [
-    modelPrices[model]?.system || 0,
-    pumpPrices[pump] || 0,
-    tankPrices[tank] || 0,
-    filterPrices[filter] || 0,
-    sensor === "normal" ? 0 : 0,
-  ];
-
-  const tax = taxableItems.reduce((sum, val) => sum + val, 0) * taxRate;
-
+  const tax = taxable * taxRate;
   const total = subtotal + tax;
+
   document.getElementById("total").textContent = total.toFixed(2);
   return total;
 }
@@ -145,35 +146,65 @@ function downloadPDF() {
       y += 5;
     };
 
-    addSectionHeader("Product");
-    addLine("Hydropack Model", document.getElementById("model").selectedOptions[0]?.text || "");
-    addLine("Unit Only", document.getElementById("unitOnly").checked ? "Yes" : "No");
-    addLine("Concrete Pad (unit)", document.getElementById("unitPad").checked ? "Yes" : "No");
-    addLine("Mobility Assistance", document.getElementById("mobility").checked ? "Yes" : "No");
-
-    addSectionHeader("Add-ons");
-    addLine("Panel Upgrade", document.getElementById("panelUpgrade").value === "panel" ? "Yes" : "No");
-
-    addSectionHeader("Additional Filters");
-    addLine("Filter", document.getElementById("filter").selectedOptions[0]?.text || "");
-    addLine("Pump", document.getElementById("pump").selectedOptions[0]?.text || "");
-    addLine("Tank Sensor", document.getElementById("sensor").selectedOptions[0]?.text || "");
-
-    addSectionHeader("Shipping / Handling");
-    addLine("Tank", document.getElementById("tank").selectedOptions[0]?.text || "");https://github.com/KhalidMas23/Aquaria-Calculator/blob/main/script.js
-    addLine("Delivery City", document.getElementById("city").selectedOptions[0]?.text || "");
-    addLine("Connection Type", document.getElementById("connection").selectedOptions[0]?.text || "");
-
     addSectionHeader("Additional Services");
-    addLine("Tank Concrete Pad", document.getElementById("tankPad").checked ? "Yes" : "No");
-    addLine("Trenching Type", document.getElementById("trenchingType").selectedOptions[0]?.text || "");
-    addLine("Trenching Distance (ft)", document.getElementById("trenchDistance").value);
+    doc.setFont(undefined, 'bold');
+    doc.text("Component", 25, y);
+    doc.text("Qty", 90, y);
+    doc.text("Description", 110, y);
+    y += 7;
+    doc.setFont(undefined, 'normal');
+
+    const addService = (component, qty, description) => {
+      doc.text(component, 25, y);
+      doc.text(String(qty), 90, y);
+      doc.text(description, 110, y);
+      y += 7;
+    };
+
+    if (document.getElementById("tankPad").checked) {
+      addService("Tank Concrete Pad", 1, "Concrete base for tank support");
+    }
+    const trenchType = document.getElementById("trenchingType").value;
+    const trenchDistance = document.getElementById("trenchDistance").value;
+    if (trenchType && trenchDistance > 0) {
+      addService(`Trenching (${trenchType})`, `${trenchDistance} ft`, "Underground piping trench");
+    }
+    const connection = document.getElementById("connection").value;
+    if (connection === "t-valve") {
+      addService("Connection Type", 1, "Manual 2-way T-valve install");
+    }
 
     addSectionHeader("Admin & Processing Fee");
+    addLine("Flat Fee", "$500.00");
 
     addSectionHeader("Sales Tax");
-    const salesTax = calculateTotal() - (calculateTotal() / (1 + 0.0825));
-    addLine("8.25% Tax (included in total)", `$${salesTax.toFixed(2)}`);
+    const taxRate = 0.0825;
+    const model = document.getElementById("model").value;
+    const filter = document.getElementById("filter").value;
+    const pump = document.getElementById("pump").value;
+    const sensor = document.getElementById("sensor").value;
+    const modelPrices = {
+      s: 9999,
+      standard: 17499,
+      x: 29999
+    };
+    const filterPrices = {
+      s: 350,
+      standard: 500,
+      x: 700,
+      "": 0
+    };
+    const pumpPrices = {
+      dab: 1900,
+      mini: 800,
+      "": 0
+    };
+    const unit = modelPrices[model] || 0;
+    const filterPrice = filterPrices[filter] || 0;
+    const pumpPrice = pumpPrices[pump] || 0;
+    const sensorPrice = sensor === "normal" ? 0 : 0;
+    const tax = (unit + filterPrice + pumpPrice + sensorPrice) * taxRate;
+    addLine("8.25% Tax (included in total)", `$${tax.toFixed(2)}`);
 
     addSectionHeader("Total");
     doc.setFont(undefined, 'bold');
@@ -187,4 +218,3 @@ function downloadPDF() {
     doc.save("Hydropack_Quote.pdf");
   };
 }
-
