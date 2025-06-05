@@ -65,7 +65,7 @@ function calculateTotal() {
     subtotal += pumpPrices[pump] || 0;
     taxable += pumpPrices[pump] || 0;
   }
-
+  
   if (connection === "t-valve") subtotal += 75;
 
   subtotal += trenchRates[trenchingType] * trenchDistance;
