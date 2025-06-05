@@ -170,7 +170,6 @@ function downloadPDF() {
     addLine("Trenching Distance (ft)", document.getElementById("trenchDistance").value);
 
     addSectionHeader("Admin & Processing Fee");
-    addLine("Flat Fee", "$500.00");
 
     addSectionHeader("Sales Tax");
     const salesTax = calculateTotal() - (calculateTotal() / (1 + 0.0825));
