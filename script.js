@@ -210,12 +210,10 @@ function downloadPDF() {
 
     // Admin Fee
     addSectionHeader("Admin & Processing Fee");
-    addLine("Admin Fee", "$500.00");
 
     // Sales Tax
     addSectionHeader("Sales Tax");
     const tax = calculateTotal() - (calculateTotal() / 1.0825);
-    addLine("Texas Sales Tax (8.25%)", `$${tax.toFixed(2)}`);
 
     // Total
     doc.setFont(undefined, 'bold');
