@@ -149,6 +149,16 @@ function downloadPDF() {
       : "None";
     addLine("Hydropack Model", modelText);
 
+    // Tank Section
+    addSectionHeader("Tank Selection");
+
+    const tank = document.getElementById("tank").value;
+    const tankText = tank
+    ? document.querySelector(`#tank option[value='${tank}']`).textContent
+    : "None";
+    addLine("Selected Tank", tankText);
+
+
     // Additional Filters
     addSectionHeader("Additional Filters");
     const filter = document.getElementById("filter").value;
