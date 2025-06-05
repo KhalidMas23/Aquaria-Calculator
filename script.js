@@ -45,10 +45,12 @@ const trenchRates = {
 const connectionCost = 75;
 const tankSensorCost = 0;
 const adminFee = 500;
-const taxRate = 0.0825; // Applies to physical goods only (can be split later)
+const taxRate = 0.0825;
+const panelUpgradeCost = 8000;
 
 function calculateTotal() {
-  let total = 0;
+  let subtotal = 0;
+  let taxable = 0;
 
   const model = document.getElementById("model").value;
   const unitOnly = document.getElementById("unitOnly").checked;
@@ -62,41 +64,57 @@ function calculateTotal() {
   const pump = document.getElementById("pump").value;
   const trenchType = document.getElementById("trenchingType").value;
   const trenchDistance = parseFloat(document.getElementById("trenchDistance").value) || 0;
+  const panelUpgrade = document.getElementById("panelUpgrade")?.checked;
 
   // Hydropack model
   if (model) {
-    total += modelPrices[model].system + modelPrices[model].shipping;
-    if (!unitOnly) total += modelPrices[model].install;
-    if (!unitOnly && unitPad) total += modelPrices[model].pad;
-    if (!unitOnly && mobility) total += modelPrices[model].mobility;
+    subtotal += modelPrices[model].system + modelPrices[model].shipping;
+    taxable += modelPrices[model].system + modelPrices[model].shipping;
+    if (!unitOnly) subtotal += modelPrices[model].install;
+    if (!unitOnly && unitPad) subtotal += modelPrices[model].pad;
+    if (!unitOnly && mobility) subtotal += modelPrices[model].mobility;
   }
+
+  // Panel upgrade
+  if (panelUpgrade) subtotal += panelUpgradeCost;
 
   // Tank
   if (tank) {
-    total += tankPrices[tank];
-    if (city) total += deliveryFees[city];
-    if (tankPad) total += tankPads[tank];
+    subtotal += tankPrices[tank];
+    taxable += tankPrices[tank];
+    if (city) subtotal += deliveryFees[city];
+    if (tankPad) subtotal += tankPads[tank];
   }
 
   // Tank sensor
-  if (sensor) total += tankSensorCost;
+  if (sensor) taxable += tankSensorCost;
+  if (sensor) subtotal += tankSensorCost;
 
   // Filter
-  if (filter) total += filterPrices[filter];
+  if (filter) {
+    subtotal += filterPrices[filter];
+    taxable += filterPrices[filter];
+  }
 
   // Pump
-  if (pump) total += pumpPrices[pump];
+  if (pump) {
+    subtotal += pumpPrices[pump];
+    taxable += pumpPrices[pump];
+  }
 
   // Connection
-  total += connectionCost;
+  subtotal += connectionCost;
 
   // Trenching
   if (trenchType && trenchDistance > 0) {
-    total += trenchRates[trenchType] * trenchDistance;
+    subtotal += trenchRates[trenchType] * trenchDistance;
   }
 
   // Admin fee
-  total += adminFee;
+  subtotal += adminFee;
+
+  const salesTax = taxable * taxRate;
+  const total = subtotal + salesTax;
 
   document.getElementById("total").textContent = total.toFixed(2);
   return total;
@@ -105,33 +123,58 @@ function calculateTotal() {
 function downloadPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
-  const selections = {
-    "Nearest City": document.getElementById("city").value,
-    "Hydropack Model": document.getElementById("model").selectedOptions[0]?.text,
-    "Unit Pad": document.getElementById("unitPad").checked ? "Yes" : "No",
-    "Mobility Assistance": document.getElementById("mobility").checked ? "Yes" : "No",
-    "Unit Only": document.getElementById("unitOnly").checked ? "Yes" : "No",
-    "Tank": document.getElementById("tank").selectedOptions[0]?.text,
-    "Tank Pad": document.getElementById("tankPad").checked ? "Yes" : "No",
-    "Tank Sensor": document.getElementById("sensor").selectedOptions[0]?.text,
-    "Extra Filter": document.getElementById("filter").selectedOptions[0]?.text,
-    "External Pump": document.getElementById("pump").selectedOptions[0]?.text,
-    "Connection Type": document.getElementById("connection").selectedOptions[0]?.text,
-    "Trenching Type": document.getElementById("trenchingType").selectedOptions[0]?.text,
-    "Trenching Distance (ft)": document.getElementById("trenchDistance").value,
-    "Total Quote": `$${document.getElementById("total").textContent}`
-  };
 
-  let y = 20;
+  const date = new Date().toLocaleDateString("en-US");
+  const total = document.getElementById("total").textContent;
+
   doc.setFontSize(14);
-  doc.text("Hydropack System Quote", 20, y);
-  y += 10;
+  doc.text("Aquaria", 20, 15);
+  doc.setFontSize(10);
+  doc.text("600 Congress Ave, Austin, TX 78701", 20, 21);
+  doc.text(`Quote Generated: ${date}`, 20, 27);
 
-  doc.setFontSize(11);
-  for (let [label, value] of Object.entries(selections)) {
+  let y = 40;
+  const addLine = (label, value) => {
     doc.text(`${label}: ${value}`, 20, y);
     y += 8;
-  }
+  };
+
+  doc.setFontSize(12);
+  doc.text("Product", 20, y);
+  y += 6;
+  addLine("Hydropack Model", document.getElementById("model").selectedOptions[0]?.text || "");
+  addLine("Unit Only", document.getElementById("unitOnly").checked ? "Yes" : "No");
+  addLine("Concrete Pad (unit)", document.getElementById("unitPad").checked ? "Yes" : "No");
+  addLine("Mobility Assistance", document.getElementById("mobility").checked ? "Yes" : "No");
+  addLine("Panel Upgrade", document.getElementById("panelUpgrade")?.checked ? "Yes" : "No");
+
+  doc.text("Additional Filters", 20, y += 10);
+  addLine("Filter", document.getElementById("filter").selectedOptions[0]?.text || "");
+  addLine("Pump", document.getElementById("pump").selectedOptions[0]?.text || "");
+  addLine("Tank Sensor", document.getElementById("sensor").selectedOptions[0]?.text || "");
+
+  doc.text("Shipping / Handling", 20, y += 10);
+  addLine("Tank", document.getElementById("tank").selectedOptions[0]?.text || "");
+  addLine("Delivery City", document.getElementById("city").selectedOptions[0]?.text || "");
+  addLine("Connection Type", document.getElementById("connection").selectedOptions[0]?.text || "");
+
+  doc.text("Additional Services", 20, y += 10);
+  addLine("Tank Concrete Pad", document.getElementById("tankPad").checked ? "Yes" : "No");
+  addLine("Trenching Type", document.getElementById("trenchingType").selectedOptions[0]?.text || "");
+  addLine("Trenching Distance (ft)", document.getElementById("trenchDistance").value);
+
+  doc.text("Admin & Processing Fee", 20, y += 10);
+  addLine("Flat Fee", "$500.00");
+
+  doc.text("Sales Tax", 20, y += 10);
+  const calculatedTax = (parseFloat(document.getElementById("total").textContent) - (calculateTotal() - (calculateTotal() * taxRate))).toFixed(2);
+  addLine("8.25% Tax (included in total)", `$${calculatedTax}`);
+
+  doc.setFontSize(14);
+  doc.text(`Total Estimate: $${total}`, 20, y += 12);
+
+  doc.setFontSize(10);
+  doc.text("Thank you for your interest in Aquaria. This quote is valid for 30 days.", 20, 285);
 
   doc.save("Hydropack_Quote.pdf");
 }
