@@ -22,7 +22,6 @@
       <label><input type="checkbox" id="unitPad" onchange="calculateTotal()"> Include Concrete Pad</label>
       <label><input type="checkbox" id="mobility" onchange="calculateTotal()"> Include Mobility Assistance</label>
       <label><input type="checkbox" id="unitOnly" onchange="calculateTotal()"> Unit Purchase Only (No Install)</label>
-      <label><input type="checkbox" id="panelUpgrade" onchange="calculateTotal()"> Panel Upgrade ($8000)</label>
     </fieldset>
 
     <fieldset>
@@ -98,6 +97,18 @@
         <option value="San Antonio">San Antonio</option>
       </select>
     </fieldset>
+
+    <fieldset>
+  <legend>Add-ons</legend>
+  <label>
+    Add-on:
+    <select id="panelUpgrade" onchange="calculateTotal()">
+      <option value="">None</option>
+      <option value="panel">Panel Upgrade ($8000)</option>
+    </select>
+  </label>
+</fieldset>
+
 
     <h2>Total Estimate: $<span id="total">0.00</span></h2>
     <button type="button" onclick="downloadPDF()">Download PDF</button>
