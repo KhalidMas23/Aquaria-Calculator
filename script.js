@@ -48,23 +48,8 @@ const adminFee = 500;
 const taxRate = 0.0825;
 const panelUpgradeCost = 8000;
 
-function calculateTotal() {
-  let subtotal = 0;
-  let taxable = 0;
-
-  const model = document.getElementById("model").value;
-  const unitOnly = document.getElementById("unitOnly").checked;
-  const unitPad = document.getElementById("unitPad").checked;
-  const mobility = document.getElementById("mobility").checked;
-  const tank = document.getElementById("tank").value;
-  const tankPad = document.getElementById("tankPad").checked;
-  const city = document.getElementById("city").value;
-  const sensor = document.getElementById("sensor").value;
-  const filter = document.getElementById("filter").value;
-  const pump = document.getElementById("pump").value;
-  const trenchType = document.getElementById("trenchingType").value;
-  const trenchDistance = parseFloat(document.getElementById("trenchDistance").value) || 0;
-  const panelUpgrade = document.getElementById("panelUpgrade")?.checked;
+$1
+  const addons = Array.from(document.querySelectorAll('input[name="addon"]:checked')).map(input => input.value);
 
   if (model) {
     subtotal += modelPrices[model].system + modelPrices[model].shipping;
@@ -74,7 +59,10 @@ function calculateTotal() {
     if (!unitOnly && mobility) subtotal += modelPrices[model].mobility;
   }
 
-  if (panelUpgrade) subtotal += panelUpgradeCost;
+  $1
+  addons.forEach(addon => {
+    if (addon === "panel") subtotal += panelUpgradeCost;
+  });
 
   if (tank) {
     subtotal += tankPrices[tank];
@@ -148,12 +136,11 @@ function downloadPDF() {
       y += 12;
     };
 
-    addSectionHeader("Product");
-    addLine("Hydropack Model", document.getElementById("model").selectedOptions[0]?.text || "");
-    addLine("Unit Only", document.getElementById("unitOnly").checked ? "Yes" : "No");
-    addLine("Concrete Pad (unit)", document.getElementById("unitPad").checked ? "Yes" : "No");
-    addLine("Mobility Assistance", document.getElementById("mobility").checked ? "Yes" : "No");
-    addLine("Panel Upgrade", document.getElementById("panelUpgrade")?.checked ? "Yes" : "No");
+    $1
+    if (addons.length > 0) {
+      addSectionHeader("Add-Ons");
+      addons.forEach(a => addLine("Addon", a === "panel" ? "Panel Upgrade" : a));
+    }
 
     addSectionHeader("Additional Filters");
     addLine("Filter", document.getElementById("filter").selectedOptions[0]?.text || "");
