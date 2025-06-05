@@ -119,7 +119,13 @@
 
     <fieldset>
       <legend>Add-ons</legend>
-      <label><input type="checkbox" id="panelUpgrade" onchange="calculateTotal()" /> Panel Upgrade ($8000)</label>
+      <label>
+        Add-on:
+        <select id="panelUpgrade" onchange="calculateTotal()">
+          <option value="">None</option>
+          <option value="panel">Panel Upgrade ($8000)</option>
+        </select>
+      </label>
     </fieldset>
 
     <h2>Total Estimate: $<span id="total">0.00</span></h2>
