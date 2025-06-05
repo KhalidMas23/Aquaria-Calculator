@@ -203,36 +203,19 @@ function downloadPDF() {
     if (connection === "t-valve") {
       addService("Connection Type", 1, "Manual 2-way T-valve install");
     }
+    const panelUpgrade = document.getElementById("panelUpgrade").value;
+    if (panelUpgrade === "panel") {
+      addService("Panel Upgrade", 1, "Electrical panel enhancement");
+    }
 
     // Admin Fee
     addSectionHeader("Admin & Processing Fee");
+    addLine("Admin Fee", "$500.00");
 
     // Sales Tax
-    addSectionHeader("8.25% Sales Tax");
-    const taxRate = 0.0825;
-    const pump = document.getElementById("pump").value;
-    const sensor = document.getElementById("sensor").value;
-    const modelPrices = {
-      s: 9999,
-      standard: 17499,
-      x: 29999
-    };
-    const filterPrices = {
-      s: 350,
-      standard: 500,
-      x: 700,
-      "": 0
-    };
-    const pumpPrices = {
-      dab: 1900,
-      mini: 800,
-      "": 0
-    };
-    const unit = modelPrices[model] || 0;
-    const filterPrice = filterPrices[filter] || 0;
-    const pumpPrice = pumpPrices[pump] || 0;
-    const sensorPrice = sensor === "normal" ? 0 : 0;
-    const tax = (unit + filterPrice + pumpPrice + sensorPrice) * taxRate;
+    addSectionHeader("Sales Tax");
+    const tax = calculateTotal() - (calculateTotal() / 1.0825);
+    addLine("Texas Sales Tax (8.25%)", `$${tax.toFixed(2)}`);
 
     // Total
     doc.setFont(undefined, 'bold');
