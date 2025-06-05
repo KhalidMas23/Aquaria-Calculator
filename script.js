@@ -74,11 +74,15 @@ function calculateTotal() {
     if (mobility) subtotal += modelPrices[model].mobility;
   }
 
-  if (tank) {
-    subtotal += tankPrices[tank];
-    if (tankPad) subtotal += tankPads[tank];
-    if (city && cityDelivery[city]) subtotal += cityDelivery[city];
-  }
+if (tank) {
+  const tankCost = tankPrices[tank] || 0;
+  subtotal += tankCost;
+  taxable += tankCost; // Only the tank itself is taxable
+
+  if (tankPad) subtotal += tankPads[tank] || 0;  // Not taxable
+  if (city && cityDelivery[city]) subtotal += cityDelivery[city];  // Not taxable
+}
+
 
   if (sensor === "normal") {
     taxable += 0;
