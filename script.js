@@ -13,12 +13,19 @@ function calculateTotal() {
   const pump = document.getElementById("pump").value;
   const connection = document.getElementById("connection").value;
   const trenchingType = document.getElementById("trenchingType").value;
-  const trenchDistance = parseFloat(document.getElementById("trenchDistance").value) || 0;
+  const trenchDistance =
+    parseFloat(document.getElementById("trenchDistance").value) || 0;
   const panelUpgrade = document.getElementById("panelUpgrade").value;
 
   const modelPrices = {
     s: { system: 9999, install: 6750, ship: 645, pad: 2750, mobility: 500 },
-    standard: { system: 17499, install: 7450, ship: 1095, pad: 3250, mobility: 500 },
+    standard: {
+      system: 17499,
+      install: 7450,
+      ship: 1095,
+      pad: 3250,
+      mobility: 500,
+    },
     x: { system: 29999, install: 8750, ship: 1550, pad: 4550, mobility: 1000 },
   };
 
@@ -35,10 +42,10 @@ function calculateTotal() {
   };
 
   const cityDelivery = {
-    "Austin": 999,
+    Austin: 999,
     "Corpus Christi": 858,
-    "Dallas": 577.5,
-    "Houston": 200,
+    Dallas: 577.5,
+    Houston: 200,
     "San Antonio": 660,
   };
 
@@ -65,7 +72,6 @@ function calculateTotal() {
 
   if (model) {
     subtotal += modelPrices[model].system;
-    taxable += modelPrices[model].system;
     if (!unitOnly) {
       subtotal += modelPrices[model].install;
     }
@@ -124,23 +130,24 @@ function downloadPDF() {
   const total = document.getElementById("total").textContent;
 
   const logo = new Image();
-  logo.src = "https://raw.githubusercontent.com/KhalidMas23/Aquaria-Calculator/8dc0a0fc0875cb830a78b1b9d2eee37c5048348a/AQ_LOGOPACK_RGB-04.png";
+  logo.src =
+    "https://raw.githubusercontent.com/KhalidMas23/Aquaria-Calculator/8dc0a0fc0875cb830a78b1b9d2eee37c5048348a/AQ_LOGOPACK_RGB-04.png";
 
   logo.onload = function () {
     doc.addImage(logo, "PNG", 150, 10, 40, 15);
 
     doc.setFontSize(14);
-    doc.setFont(undefined, 'bold');
+    doc.setFont(undefined, "bold");
     doc.text("Aquaria", 20, 15);
     doc.setFontSize(10);
-    doc.setFont(undefined, 'normal');
+    doc.setFont(undefined, "normal");
     doc.text("600 Congress Ave, Austin, TX 78701", 20, 21);
     doc.text(`Quote Generated: ${date}`, 20, 27);
 
     let y = 40;
 
     const addSectionHeader = (title) => {
-      doc.setFont(undefined, 'bold');
+      doc.setFont(undefined, "bold");
       doc.setFontSize(12);
       doc.text(title, 20, y);
       y += 5;
@@ -150,7 +157,7 @@ function downloadPDF() {
     };
 
     const addLine = (label, value) => {
-      doc.setFont(undefined, 'normal');
+      doc.setFont(undefined, "normal");
       doc.text(`${label}: ${value}`, 25, y);
       y += 7;
     };
@@ -158,13 +165,17 @@ function downloadPDF() {
     // Product Section
     addSectionHeader("Main Product");
     const model = document.getElementById("model").value;
-    const modelText = model ? document.querySelector(`#model option[value='${model}']`).textContent : "None";
+    const modelText = model
+      ? document.querySelector(`#model option[value='${model}']`).textContent
+      : "None";
     addLine("Hydropack Model", modelText);
 
     // Additional Filters
     addSectionHeader("Additional Filters");
     const filter = document.getElementById("filter").value;
-    const filterText = filter ? document.querySelector(`#filter option[value='${filter}']`).textContent : "None";
+    const filterText = filter
+      ? document.querySelector(`#filter option[value='${filter}']`).textContent
+      : "None";
     addLine("Extra Filter(s)", filterText);
 
     // Shipping and Handling
@@ -174,12 +185,12 @@ function downloadPDF() {
 
     // Additional Services
     addSectionHeader("Additional Services");
-    doc.setFont(undefined, 'bold');
+    doc.setFont(undefined, "bold");
     doc.text("Component", 25, y);
     doc.text("Qty", 90, y);
     doc.text("Description", 110, y);
     y += 7;
-    doc.setFont(undefined, 'normal');
+    doc.setFont(undefined, "normal");
 
     const addService = (component, qty, description) => {
       doc.text(component, 25, y);
@@ -197,7 +208,11 @@ function downloadPDF() {
     const trenchType = document.getElementById("trenchingType").value;
     const trenchDistance = document.getElementById("trenchDistance").value;
     if (trenchType && trenchDistance > 0) {
-      addService(`Trenching (${trenchType})`, `${trenchDistance} ft`, "Underground piping trench");
+      addService(
+        `Trenching (${trenchType})`,
+        `${trenchDistance} ft`,
+        "Underground piping trench"
+      );
     }
     const connection = document.getElementById("connection").value;
     if (connection === "t-valve") {
@@ -208,22 +223,26 @@ function downloadPDF() {
       addService("Panel Upgrade", 1, "Electrical panel enhancement");
     }
 
-// Admin Fee
-addSectionHeader("Admin & Processing Fee");
-// addLine("Admin Fee", "$500");
+    // Admin Fee
+    addSectionHeader("Admin & Processing Fee");
+    // addLine("Admin Fee", "$500");
 
-// Sales Tax
-addSectionHeader("8.25% Sales Tax");
-// addLine("Texas Sales Tax (8.25%)", `$${tax.toFixed(2)}`);
+    // Sales Tax
+    addSectionHeader("8.25% Sales Tax");
+    // addLine("Texas Sales Tax (8.25%)", `$${tax.toFixed(2)}`);
 
     // Total
-    doc.setFont(undefined, 'bold');
+    doc.setFont(undefined, "bold");
     doc.setFontSize(14);
     doc.text(`Total: $${total}`, 20, y);
 
     doc.setFontSize(10);
-    doc.setFont(undefined, 'normal');
-    doc.text("Thank you for your interest in Aquaria. This quote is valid for 30 days.", 20, 285);
+    doc.setFont(undefined, "normal");
+    doc.text(
+      "Thank you for your interest in Aquaria. This quote is valid for 30 days.",
+      20,
+      285
+    );
 
     doc.save("Hydropack_Quote.pdf");
   };
